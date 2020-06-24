@@ -1,5 +1,9 @@
 let startBtn = document.getElementById('start');
 let currentPlayer = 'x';
+let form1 = document.getElementById('player1');
+let form2 = document.getElementById('player2');
+let player1 = 'x';
+let player2 = 'o';
 let statusBar = document.getElementById('status-bar');
 let cells = document.getElementsByTagName('td');
 let cellOne = document.getElementById('1')
@@ -23,6 +27,17 @@ let cellArray = [
     cellEight,
     cellNine
 ]
+
+form1.addEventListener('submit', () => {
+    player1 = document.getElementsByTagName()
+})
+
+let winner = false;
+
+startBtn.addEventListener('click', () => {
+    startBtn.disabled = true;
+    startGame();
+})
 
 let WINNING_COMBOS = {
     rowOne: [cellOne, cellTwo, cellThree],
@@ -74,6 +89,7 @@ function changePlayer() {
 }
 
 function startGame() {
+    winner = false;
     for (let cell of cells) {
         cell.textContent = '';
         cell.style.backgroundColor = 'white';
@@ -91,29 +107,20 @@ function startGame() {
             cellNine
         ]
     }
+    if(winner === false) {
+        for (let cell of cells) {
+            cell.addEventListener('click', (event) => {
+                if(usedCellArray.includes(event.target)){
+                    statusBar.textContent = "Please select an empty cell.";
+                    console.log(usedCellArray)
+                } else {
+                cell.textContent = currentPlayer;
+                usedCellArray.push(event.target);
+                cellArray.splice(cellArray.indexOf(event.target), 1);
+                checkWin();
+                changePlayer();
+            }
+            })
+        }
+        }
 }
-
-function youWin() {
-    statusBar.textContent = `Player ${currentPlayer} wins!`;
-    startBtn.disabled = false;
-}
-
-for (let cell of cells) {
-    cell.addEventListener('click', (event) => {
-        if(usedCellArray.includes(event.target)){
-            statusBar.textContent = "Please select an empty cell.";
-            console.log(usedCellArray)
-        } else {
-        cell.textContent = currentPlayer;
-        usedCellArray.push(event.target);
-        cellArray.splice(cellArray.indexOf(event.target), 1);
-        checkWin();
-        changePlayer();
-    }
-})
-}
-
-startBtn.addEventListener('click', () => {
-    startBtn.disabled = true;
-    startGame();
-})
