@@ -4,20 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tic Tac Toe</title>
+  <link href="style.css" rel="stylesheet">
 </head>
 <body>
   <h1>Tic Tac Toe!</h1>
   <div id='board'>
-    <div class='cell'></div>
-    <div class='cell'></div>
-    <div class='cell'></div>
-    <div class='cell'></div>
-    <div class='cell'></div>
-    <div class='cell'></div>
-    <div class='cell'></div>
-    <div class='cell'></div>
-    <div class='cell'></div>
+    <table>
+      <tr id='row 1'>
+          <td id='1'></td>
+          <td id='2'></td>
+          <td id='3'></td>
+      </tr>
+      <tr id='row 2'>
+          <td id='4'></td>
+          <td id='5'></td>
+          <td id='6'></td>
+      </tr>
+      <tr id='row 3'>
+          <td id='7'></td>
+          <td id='8'></td>
+          <td id='9'></td>
+      </tr>
+  </table>
   </div>
   <button id='start'>Start Game</button>
+  <div id='status-bar'></div>
+  <script src='index.js'></script>
 </body>
 </html>

@@ -1,0 +1,9 @@
+tr{
+    font-size: 50px;
+}
+
+td {
+    border: 1px solid black;
+    height: 50px;
+    width: 50px;
+    }
