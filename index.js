@@ -55,7 +55,12 @@ let WINNING_COMBOS = {
 
 twoPlayer.addEventListener('click', () => {
     startBtn.disabled = false;
-    gameMode = 'onePlayer';
+    gameMode = 'twoPlayer';
+})
+
+onePlayer.addEventListener('click', () => {
+  startBtn.disabled = false;
+  gameMode = 'onePlayer'
 })
 
 // function to add to the unclicked cell 
