@@ -1,12 +1,14 @@
+// assigning variables
 let playerOne = '';
 let playerTwo = '';
 let clockCount = 0;
 let interval;
 
+// initializing variables with DOM scripting
 let startBtn = document.getElementById('start');
 let playerOneName = document.getElementById('playerOne')
 let playerTwoName = document.getElementById('playerTwo')
-let player = 'x';
+let currentPlayer = 'x';
 let status = document.getElementById('status-bar');
 let clock = document.getElementById('clock');
 let cells = Array.from(document.getElementsByTagName('td'));
@@ -20,6 +22,8 @@ let cellSeven = document.getElementById('7')
 let cellEight = document.getElementById('8')
 let cellNine = document.getElementById('9')
 let usedCellArray = [];
+
+// assigning individual cells on your game board
 let cellArray = [
     cellOne,
     cellTwo,
@@ -31,6 +35,8 @@ let cellArray = [
     cellEight,
     cellNine
 ]
+
+// all the possible combinations to win the game
 let WINNING_COMBOS = {
     rowOne: [cellOne, cellTwo, cellThree],
     rowTwo: [cellFour, cellFive, cellSix],
@@ -42,10 +48,10 @@ let WINNING_COMBOS = {
     backSlash: [cellOne, cellFive, cellNine]
 }
 
-
+// function to add to the unclicked cell 
 function clicked(event) {
-    event.target.textContent = player;
-    // player === 'x' ? 'o' : 'x';
+    event.target.textContent = currentPlayer;
+    // currentPlayer === 'x' ? 'o' : 'x';
     event.target.removeEventListener('click', clicked);
     event.target.addEventListener('click', alreadyClicked);
     usedCellArray.push(event);
@@ -56,7 +62,7 @@ function clicked(event) {
     let win = checkWin();
 
     if(win) {
-        if (player === 'x') {
+        if (currentPlayer === 'x') {
             status.textContent = `${playerOne} wins!`
         } else {
             status.textContent = `${playerTwo} wins!`
@@ -68,17 +74,18 @@ function clicked(event) {
         clearInterval(interval);
         clockCount = 0;
     } else {
-        if (player === 'x') {
-            player = 'o';
+        if (currentPlayer === 'x') {
+            currentPlayer = 'o';
             status.textContent = `It's ${playerTwo}'s turn!`
         } else {
-            player = 'x';
+            currentPlayer = 'x';
             status.textContent = `It's ${playerOne}'s turn!`
         }
 
     }
 }
-
+// function that tells the player to select an empty cell if they've selected one that's 
+// already in use
 function alreadyClicked() {
     status.textContent = 'Please select an empty cell.';
 }
@@ -87,12 +94,14 @@ startBtn.addEventListener('click', () => {
     start();
 })
 
+// function to remove event listener on cells after someone has won
 function stopPlay(cellArray) {
     cellArray.forEach(function (cell) {
         cell.removeEventListener('click', clicked)
     })
 }
 
+// function to check whether or not the player has won
 function checkWin() {
     for (let combo of Object.values(WINNING_COMBOS)) {
         if (combo[0].textContent === '') {
@@ -101,7 +110,7 @@ function checkWin() {
             combo[0].textContent === combo[2].textContent
         ) {
             markWinner(combo);
-            status.textContent = `Player ${player} wins!`;
+            status.textContent = `Player ${currentPlayer} wins!`;
             startBtn.disabled = false;
             stopPlay(cellArray);
             return true;
@@ -109,6 +118,7 @@ function checkWin() {
     }
 }
 
+// function that highlights the winning squares 
 function markWinner(combo){
     for(let cell of combo){
         cell.style.backgroundColor = 'green';
@@ -116,22 +126,24 @@ function markWinner(combo){
     }
 }
 
+// function that 
 function start() {
     playerOne = (playerOneName.value === '' ? 'x' : playerOneName.value);
     playerTwo = (playerTwoName.value === '' ? 'o' : playerTwoName.value);
     playerOneName.value
     playerOneName.disabled = true;
     playerTwoName.disabled = true;
-    player = playerOne;
+    currentPlayer = playerOne;
     startBtn.disabled = true;
     clearBoard();
-    status.textContent = `Player ${player}'s turn!`
+    status.textContent = `Player ${currentPlayer}'s turn!`
     cells.forEach((cell)=> {
         cell.addEventListener('click', clicked)
     })
     interval = setInterval(()=>{updateClock()}, 1000)
 }
 
+// resets the board when someone clicks the start game button
 function clearBoard() {
     cells.forEach((cell)=> {
         cell.textContent = '';
