@@ -27,6 +27,15 @@ let cellNine = document.getElementById('9')
 let usedCellArray = [];
 let gameMode = '';
 
+function capitalize(string) {
+    if (string.length <= 1) {
+        string = string.toUpperCase();
+        return string;
+    }
+    string = string[0].toUpperCase() + string[1].toLowerCase();
+    return string;
+}
+
 // assigning individual cells on your game board
 // possible clicks
 let cellArray = [
@@ -54,13 +63,17 @@ let WINNING_COMBOS = {
 }
 
 twoPlayer.addEventListener('click', () => {
+    twoPlayer.disabled = true;
+    onePlayer.disabled = true;
     startBtn.disabled = false;
     gameMode = 'twoPlayer';
 })
 
 onePlayer.addEventListener('click', () => {
-  startBtn.disabled = false;
-  gameMode = 'onePlayer'
+    twoPlayer.disabled = true;
+    onePlayer.disabled = true;
+    startBtn.disabled = false;
+    gameMode = 'onePlayer'
 })
 
 // function to add to the unclicked cell 
@@ -78,9 +91,9 @@ function clicked(event) {
 
     if (win) {
         if (currentPlayer === 'x') {
-            status.textContent = `${playerOne} wins!`
+            status.textContent = `${capitalize(playerOne)} wins!`
         } else {
-            status.textContent = `${playerTwo} wins!`
+            status.textContent = `${capitalize(playerTwo)} wins!`
         }
         cells.forEach((cell) => {
             cell.removeEventListener('click', clicked);
@@ -88,17 +101,24 @@ function clicked(event) {
         })
         clearInterval(interval);
         clockCount = 0;
+        startBtn.disabled = true;
+        onePlayer.disabled = false;
+        twoPlayer.disabled = false;
     } else {
         if (currentPlayer === 'x') {
             //switches to player o's turn
             currentPlayer = 'o';
-            status.textContent = `It's ${playerTwo}'s turn!`
-        } else if (gameMode === onePlayer) {
-            let randomCell = cellArray.indexOf((Math.floor(Math.random)) * cellArray.length)
-            console.log(randomCell)
+            status.textContent = `It's ${capitalize(playerTwo)}'s turn!`
+        } else if (gameMode === 'onePlayer') {
+            let randomCell = cellArray[Math.floor(Math.random() * cellArray.length)];
+            console.log(Math.floor(Math.random() * cellArray.length))
+            // console.log(randomCell);
             randomCell.click();
             currentPlayer = 'x';
-            status.textContent = `It's ${playerOne}'s turn!`
+            status.textContent = `It's ${capitalize(playerOne)}'s turn!`
+        } else {
+            currentPlayer = 'x';
+            status.textContent = `It's ${capitalize(playerOne)}'s turn!`
         }
     }
 }
@@ -109,11 +129,9 @@ function alreadyClicked() {
 }
 
 startBtn.addEventListener('click', () => {
-    if (gameMode === 'twoPlayer') {
-        start();
-    } else {
-
-    }
+    start();
+    onePlayer.disabled = true;
+    twoPlayer.disabled = true;
 })
 
 // function to remove event listener on cells after someone has won
@@ -132,7 +150,7 @@ function checkWin() {
             combo[0].textContent === combo[2].textContent
         ) {
             markWinner(combo);
-            status.textContent = `Player ${currentPlayer} wins!`;
+            status.textContent = `Player ${capitalize(currentPlayer)} wins!`;
             startBtn.disabled = false;
             stopPlay(cellArray);
             return true;
