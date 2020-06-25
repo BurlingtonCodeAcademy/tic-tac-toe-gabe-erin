@@ -7,3 +7,25 @@ td {
     height: 50px;
     width: 50px;
     }
+
+.player-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.player-one {
+  margin-right: 10vw;
+}
+
+.mode-buttons-container {
+  display: flex;
+  justify-content: space-around
+}
+
+.game-mode {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}

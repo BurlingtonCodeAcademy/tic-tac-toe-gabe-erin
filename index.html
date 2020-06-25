@@ -1,47 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tic Tac Toe</title>
   <link href="style.css" rel="stylesheet">
 </head>
+
 <body>
   <h1>Tic Tac Toe!</h1>
   <div id='board'>
     <table>
       <tr id='row 1'>
-          <td id='1'></td>
-          <td id='2'></td>
-          <td id='3'></td>
+        <td id='1'></td>
+        <td id='2'></td>
+        <td id='3'></td>
       </tr>
       <tr id='row 2'>
-          <td id='4'></td>
-          <td id='5'></td>
-          <td id='6'></td>
+        <td id='4'></td>
+        <td id='5'></td>
+        <td id='6'></td>
       </tr>
       <tr id='row 3'>
-          <td id='7'></td>
-          <td id='8'></td>
-          <td id='9'></td>
+        <td id='7'></td>
+        <td id='8'></td>
+        <td id='9'></td>
       </tr>
-  </table>
+    </table>
   </div>
 
   <div class='status'>
     <div id='player-names'>
-      <div style="display: flex; justify-content: space-between">
-    <h3>Player One Name:</h3><h3>Player Two Name:</h3>
-  </div>
-<input id='playerOne' type='text' />
-<input id='playerTwo' type='text' />
+      <div class="player-container">
+        <div class="player-one">
+          <h3>Player One Name:</h3>
+          <input id='playerOne' type='text' />
+        </div>
+        <div class="player-two">
+          <h3>Player Two Name:</h3>
+          <input id='playerTwo' type='text' />
+        </div>
+      </div>
     </div>
   </div>
-  <button id='start'>Start Game</button>
-  <button id="twoPlayer">Player vs. Player</button>
-  <button id="onePlayer">Player vs. Computer</button>
+  <div class='mode-buttons-container'>
+    <p class='game-mode'>Select your game mode:</p>
+    <button id="twoPlayer">Player vs. Player</button>
+    <button id="onePlayer">Player vs. Computer</button>
+  </div>
+  <div class='start-button-container'>
+    <button id='start'>Start Game</button>
+  </div>
   <div id='status-bar'></div>
   <div id='clock'></div>
   <script src='index.js'></script>
 </body>
+
 </html>
