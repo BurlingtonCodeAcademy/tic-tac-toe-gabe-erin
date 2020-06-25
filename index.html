@@ -8,16 +8,6 @@
 </head>
 <body>
   <h1>Tic Tac Toe!</h1>
-  <form id='player1'>
-<p>Name of Player 1</p>
-<input type='text' />
-<input type='submit' />
-  </form>
-  <form id='player2'>
-<p>Name of player 2</p>
-<input type="text" />
-<input type=submit />
-  </form>
   <div id='board'>
     <table>
       <tr id='row 1'>
@@ -40,12 +30,16 @@
 
   <div class='status'>
     <div id='player-names'>
+      <div style="display: flex; justify-content: space-between">
+    <h3>Player One Name:</h3><h3>Player Two Name:</h3>
+  </div>
 <input id='playerOne' type='text' />
 <input id='playerTwo' type='text' />
-
     </div>
   </div>
   <button id='start'>Start Game</button>
+  <button id="twoPlayer">Player vs. Player</button>
+  <button id="onePlayer">Player vs. Computer</button>
   <div id='status-bar'></div>
   <div id='clock'></div>
   <script src='index.js'></script>

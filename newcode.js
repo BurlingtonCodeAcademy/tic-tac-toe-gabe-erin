@@ -1,19 +1,12 @@
-// assigning variables
 let playerOne = '';
 let playerTwo = '';
-let clockCount = 0;
-let interval;
+let turnCount = 0;
 
-// initializing variables with DOM scripting
 let startBtn = document.getElementById('start');
-startBtn.disabled = true;
-let onePlayer = document.getElementById('onePlayer');
-let twoPlayer = document.getElementById('twoPlayer');
 let playerOneName = document.getElementById('playerOne')
 let playerTwoName = document.getElementById('playerTwo')
-let currentPlayer = 'x';
+let player = 'x';
 let status = document.getElementById('status-bar');
-let clock = document.getElementById('clock');
 let cells = Array.from(document.getElementsByTagName('td'));
 let cellOne = document.getElementById('1')
 let cellTwo = document.getElementById('2')
@@ -25,10 +18,6 @@ let cellSeven = document.getElementById('7')
 let cellEight = document.getElementById('8')
 let cellNine = document.getElementById('9')
 let usedCellArray = [];
-let gameMode = '';
-
-// assigning individual cells on your game board
-// possible clicks
 let cellArray = [
     cellOne,
     cellTwo,
@@ -40,8 +29,6 @@ let cellArray = [
     cellEight,
     cellNine
 ]
-
-// all the possible combinations to win the game
 let WINNING_COMBOS = {
     rowOne: [cellOne, cellTwo, cellThree],
     rowTwo: [cellFour, cellFive, cellSix],
@@ -53,72 +40,56 @@ let WINNING_COMBOS = {
     backSlash: [cellOne, cellFive, cellNine]
 }
 
-twoPlayer.addEventListener('click', () => {
-    startBtn.disabled = false;
-    gameMode = 'onePlayer';
-})
 
-// function to add to the unclicked cell 
 function clicked(event) {
-    event.target.textContent = currentPlayer;
-    // currentPlayer === 'x' ? 'o' : 'x';
+    event.target.textContent = player;
+    // player === 'x' ? 'o' : 'x';
     event.target.removeEventListener('click', clicked);
     event.target.addEventListener('click', alreadyClicked);
     usedCellArray.push(event);
     cellArray.splice(cellArray.indexOf(event), 1);
-    checkWin();
-
 
     let win = checkWin();
 
-    if (win) {
-        if (currentPlayer === 'x') {
-            status.textContent = `${playerOne} wins!`
+    if(win) {
+        startBtn.disabled = false;
+        stopPlay(cellArray);
+        if (player === 'x') {
+            status.textContent = `${playerOne} wins!`;
         } else {
             status.textContent = `${playerTwo} wins!`
         }
-        cells.forEach((cell) => {
-            cell.removeEventListener('click', clicked);
-            cell.removeEventListener('click', alreadyClicked)
-        })
-        clearInterval(interval);
-        clockCount = 0;
+    } else if (turnCount === 8) {
+        status.textContent =  "It's a draw!";
     } else {
-        if (currentPlayer === 'x') {
-            //switches to player o's turn
-            currentPlayer = 'o';
-            status.textContent = `It's ${playerTwo}'s turn!`
-        } else if (gameMode === onePlayer) {
-            let randomCell = cellArray.indexOf((Math.floor(Math.random)) * cellArray.length)
-            console.log(randomCell)
-            randomCell.click();
-            currentPlayer = 'x';
+        if (player === 'x') {
+            player = 'o';
+            status.textContent = `It's ${player}'s turn!`
+            console.log(player)
+        } else {
+            player = 'x';
             status.textContent = `It's ${playerOne}'s turn!`
+            console.log(player)
         }
+        turnCount += 1;
     }
 }
-// function that tells the player to select an empty cell if they've selected one that's 
-// already in use
+
 function alreadyClicked() {
     status.textContent = 'Please select an empty cell.';
 }
 
 startBtn.addEventListener('click', () => {
-    if (gameMode === 'twoPlayer') {
-        start();
-    } else {
-
-    }
+    start();
 })
 
-// function to remove event listener on cells after someone has won
 function stopPlay(cellArray) {
     cellArray.forEach(function (cell) {
         cell.removeEventListener('click', clicked)
+        cell.removeEventListener('click', alreadyClicked)
     })
 }
 
-// function to check whether or not the player has won
 function checkWin() {
     for (let combo of Object.values(WINNING_COMBOS)) {
         if (combo[0].textContent === '') {
@@ -127,41 +98,37 @@ function checkWin() {
             combo[0].textContent === combo[2].textContent
         ) {
             markWinner(combo);
-            status.textContent = `Player ${currentPlayer} wins!`;
-            startBtn.disabled = false;
-            stopPlay(cellArray);
             return true;
         }
     }
 }
 
-// function that highlights the winning squares 
-function markWinner(combo) {
-    for (let cell of combo) {
+function markWinner(combo){
+    for(let cell of combo){
         cell.style.backgroundColor = 'green';
         cell.style.border = '3px solid red'
     }
 }
 
-// function that 
 function start() {
-    playerOne = (playerOneName.value === '' ? 'x' : playerOneName.value);
-    playerTwo = (playerTwoName.value === '' ? 'o' : playerTwoName.value);
-    playerOneName.disabled = true;
-    playerTwoName.disabled = true;
-    currentPlayer = playerOne;
     startBtn.disabled = true;
     clearBoard();
-    status.textContent = `Player ${currentPlayer}'s turn!`;
-    cells.forEach((cell) => {
+    status.textContent = `Player ${player}'s turn!`
+    cells.forEach((cell)=> {
         cell.addEventListener('click', clicked)
     })
-    interval = setInterval(() => { updateClock() }, 1000)
+    playerOne = (playerOneName.value === '' ? 'x' : playerOneName.value);
+    playerTwo = (playerTwoName.value === '' ? 'o' : playerTwoName.value);
+    playerOneName.value = '';
+    playerTwoName.value = '';
+    playerOneName.disabled = true;
+    playerTwoName.disabled = true;
 }
 
-// resets the board when someone clicks the start game button
 function clearBoard() {
-    cells.forEach((cell) => {
+    cells.forEach((cell)=> {
+        cell.removeEventListener('click', clicked);
+        cell.removeEventListener('click', alreadyClicked)
         cell.textContent = '';
         cell.style.backgroundColor = 'white';
         cell.style.border = '1px solid black';
@@ -178,9 +145,4 @@ function clearBoard() {
             cellNine
         ]
     })
-}
-//our interval 
-function updateClock() {
-    clock.textContent = clockCount;
-    clockCount += 1;
 }
