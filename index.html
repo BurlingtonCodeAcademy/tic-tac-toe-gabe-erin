@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Acme&display=swap" rel="stylesheet">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tic Tac Toe</title>
@@ -9,7 +10,13 @@
 </head>
 
 <body>
-  <h1>Tic Tac Toe!</h1>
+  <div class='typewriter'>
+    <h1>Gabe and Erin's Tic Tac Toe Game!</h1>
+  </div>
+  <div class='header'>
+    <div id='clock'></div>
+    <div id='status-bar'></div>
+  </div>
   <div id='board'>
     <table>
       <tr id='row 1'>
@@ -34,26 +41,26 @@
     <div id='player-names'>
       <div class="player-container">
         <div class="player-one">
-          <h3>Player One Name:</h3>
+          <h3>Player One's Name:</h3>
           <input id='playerOne' type='text' />
         </div>
         <div class="player-two">
-          <h3>Player Two Name:</h3>
+          <h3>Player Two's Name:</h3>
           <input id='playerTwo' type='text' />
         </div>
       </div>
     </div>
   </div>
+  <div class='game-mode'>
+    <h3>Select your game mode:</h3>
+  </div>
   <div class='mode-buttons-container'>
-    <p class='game-mode'>Select your game mode:</p>
     <button id="twoPlayer">Player vs. Player</button>
     <button id="onePlayer">Player vs. Computer</button>
   </div>
   <div class='start-button-container'>
-    <button id='start'>Start Game</button>
+    <button id='start'>Click To Start The Game!</button>
   </div>
-  <div id='status-bar'></div>
-  <div id='clock'></div>
   <script src='index.js'></script>
 </body>
 

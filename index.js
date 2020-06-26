@@ -211,7 +211,7 @@ function clearBoard() {
         ]
     })
 }
-//our interval 
+// our interval 
 function updateClock() {
     clock.textContent = clockCount;
     clockCount += 1;

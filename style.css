@@ -1,31 +1,132 @@
-tr{
-    font-size: 50px;
+.typewriter h1 {
+  padding-top: 3vh;
+  padding-bottom: 5vh;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 0 auto;
+  animation:
+    typing 3.5s steps(40, end),
+    blink-caret .75s step-end infinite;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+/* The typing effect */
+@keyframes typing {
+  from {
+    width: 0
+  }
+
+  to {
+    width: 100%
+  }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+
+  from,
+  to {
+    border-color: transparent
+  }
+}
+
+body {
+  font-family: Acme
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+}
+
+#status-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-bottom: 5vh;
+  font-size: 25px;
+}
+
+#board {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+tr {
+  font-size: 50px;
 }
 
 td {
-    border: 1px solid black;
-    height: 50px;
-    width: 50px;
-    }
+  border: 1px solid black;
+  height: 50px;
+  width: 50px;
+  text-align: center;
+}
 
 .player-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  padding: 20px;
 }
 
 .player-one {
-  margin-right: 10vw;
+  padding-right: 20px;
 }
 
 .mode-buttons-container {
   display: flex;
-  justify-content: space-around
+  justify-content: center;
+  flex-direction: row;
 }
 
 .game-mode {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
 
+}
+
+#playerOne {
+  height: 3vh;
+  font-family: Acme;
+  font-size: 15px;
+  padding: 5px;
+}
+
+#playerTwo {
+  height: 3vh;
+  font-family: Acme;
+  font-size: 15px;
+  padding: 5px;
+}
+
+#twoPlayer {
+  margin-right: 15px;
+  font-family: Acme;
+  font-size: 15px;
+  padding: 10px;
+}
+
+#onePlayer {
+  font-family: Acme;
+  font-size: 15px;
+  padding: 10px;
+}
+
+.start-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#start {
+  font-family: Acme;
+  font-size: 15px;
+  padding: 10px;
+  margin-top: 6vh;
 }
