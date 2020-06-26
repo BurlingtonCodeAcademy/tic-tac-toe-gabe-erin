@@ -50,7 +50,7 @@ h1 {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding-bottom: 5vh;
+  padding-bottom: 1vh;
   font-size: 25px;
   width: 30vw;
 }
@@ -98,7 +98,6 @@ td {
   display: flex;
   flex-direction: row;
   justify-content: center;
-
 }
 
 #playerOne {
@@ -146,7 +145,6 @@ td {
   justify-content: flex-end;
   height: 50px;
   width: 135px;
-  border: 1px solid black;
 }
 
 #clock {
@@ -155,7 +153,6 @@ td {
 
 .edge-styles {
   display: flex;
-  border: 1px solid black;
   height: 100%;
   width: 100%;
   justify-content: flex-end;
@@ -170,5 +167,4 @@ td {
 .mid-content {
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
 }
