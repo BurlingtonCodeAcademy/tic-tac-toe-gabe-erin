@@ -13,56 +13,69 @@
   <div class='typewriter'>
     <h1>Gabe and Erin's Tic Tac Toe Game!</h1>
   </div>
-  <div class='header'>
-    <div class='clock-wrapper'>
-      <h3 id='timer'>Timer:</h3>
-      <div id='clock'></div>
-    </div>
-    <div id='status-bar'></div>
-  </div>
-  <div id='board'>
-    <table>
-      <tr id='row 1'>
-        <td id='1'></td>
-        <td id='2'></td>
-        <td id='3'></td>
-      </tr>
-      <tr id='row 2'>
-        <td id='4'></td>
-        <td id='5'></td>
-        <td id='6'></td>
-      </tr>
-      <tr id='row 3'>
-        <td id='7'></td>
-        <td id='8'></td>
-        <td id='9'></td>
-      </tr>
-    </table>
-  </div>
-
-  <div class='status'>
-    <div id='player-names'>
-      <div class="player-container">
-        <div class="player-one">
-          <h3>Player One's Name:</h3>
-          <input id='playerOne' type='text' />
-        </div>
-        <div class="player-two">
-          <h3>Player Two's Name:</h3>
-          <input id='playerTwo' type='text' />
-        </div>
+  <div class='mid-wrapper'>
+    <div class="edge-styles">
+      <div class='clock-wrapper'>
+       <div>Timer: </div>
+        <div id='clock'></div>
       </div>
     </div>
-  </div>
-  <div class='game-mode'>
-    <h3>Select your game mode:</h3>
-  </div>
-  <div class='mode-buttons-container'>
-    <button id="twoPlayer">Player vs. Player</button>
-    <button id="onePlayer">Player vs. Computer</button>
-  </div>
-  <div class='start-button-container'>
-    <button id='start'>Click To Start The Game!</button>
+    <div class='mid-content'>
+
+      <div class='header'>
+
+
+
+
+
+        <div id='status-bar'></div>
+      </div>
+      <div id='board'>
+        <table>
+          <tr id='row 1'>
+            <td id='1'></td>
+            <td id='2'></td>
+            <td id='3'></td>
+          </tr>
+          <tr id='row 2'>
+            <td id='4'></td>
+            <td id='5'></td>
+            <td id='6'></td>
+          </tr>
+          <tr id='row 3'>
+            <td id='7'></td>
+            <td id='8'></td>
+            <td id='9'></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class='status'>
+        <div id='player-names'>
+          <div class="player-container">
+            <div class="player-one">
+              <h3>Player One's Name:</h3>
+              <input id='playerOne' type='text' />
+            </div>
+            <div class="player-two">
+              <h3>Player Two's Name:</h3>
+              <input id='playerTwo' type='text' />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class='game-mode'>
+        <h3>Select your game mode:</h3>
+      </div>
+      <div class='mode-buttons-container'>
+        <button id="twoPlayer">Player vs. Player</button>
+        <button id="onePlayer">Player vs. Computer</button>
+      </div>
+      <div class='start-button-container'>
+        <button id='start'>Click To Start The Game!</button>
+      </div>
+    </div>
+    <!-- <div class='edge-styles'></div> -->
   </div>
   <script src='index.js'></script>
 </body>

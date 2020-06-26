@@ -9,7 +9,7 @@
     blink-caret .75s step-end infinite;
 }
 
-#timer{
+#timer {
 
 }
 
@@ -143,11 +143,32 @@ td {
 
 .clock-wrapper {
   display: flex;
-  align-items: flex-end;
+  justify-content: flex-end;
+  height: 50px;
+  width: 135px;
   border: 1px solid black;
-
 }
 
 #clock {
   font-size: 25px;
+}
+
+.edge-styles {
+  display: flex;
+  border: 1px solid black;
+  height: 100%;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.mid-wrapper {
+  display: flex;
+  width: 100vw;
+  height: 80vh;
+}
+
+.mid-content {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
 }

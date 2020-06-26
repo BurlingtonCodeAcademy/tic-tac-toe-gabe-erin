@@ -188,8 +188,8 @@ function checkWin() {
 // function that highlights the winning squares 
 function markWinner(combo) {
     for (let cell of combo) {
-        cell.style.backgroundColor = 'green';
-        cell.style.border = '3px solid red'
+        cell.style.backgroundColor = '#a1f4f3';
+        cell.style.border = '3px solid #42aff7'
     }
 }
 
