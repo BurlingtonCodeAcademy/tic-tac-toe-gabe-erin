@@ -3,6 +3,7 @@ let playerOne = '';
 let playerTwo = '';
 let clockCount = 0;
 let interval;
+let turnCount = 0;
 
 // initializing variables with DOM scripting
 let startBtn = document.getElementById('start');
@@ -74,11 +75,17 @@ onePlayer.addEventListener('click', () => {
 
 // function to add to the unclicked cell 
 function clicked(event) {
+    cellArray.forEach(function (cell) {
+        cell.addEventListener('click', clicked);
+        cell.addEventListener('click', alreadyClicked);
+    })
+    console.log(usedCellArray);
+    console.log(usedCellArray.length);
     event.target.textContent = currentPlayer;
     // currentPlayer === 'x' ? 'o' : 'x';
     event.target.removeEventListener('click', clicked);
     event.target.addEventListener('click', alreadyClicked);
-    usedCellArray.push(event);
+    usedCellArray.push(event.target);
     checkWin();
 
 
@@ -90,18 +97,27 @@ function clicked(event) {
         } else {
             status.textContent = `${capitalize(playerTwo)} wins!`
         }
-        cells.forEach((cell) => {
-            cell.removeEventListener('click', clicked);
-            cell.removeEventListener('click', alreadyClicked)
-        })
+        stopPlay(cellArray)
         clearInterval(interval);
         clockCount = 0;
         startBtn.disabled = true;
         onePlayer.disabled = false;
         twoPlayer.disabled = false;
+        playerOneName.disabled = false;
+        playerTwoName.disabled = false;
+    } else if (parseInt(usedCellArray.length) === 9) {
+        status.textContent = `It's a draw!`;
+        onePlayer.disabled = false;
+        twoPlayer.disabled = false;
+        playerOneName.disabled = false;
+        playerTwoName.disabled = false;
+        stopPlay(cellArray)
+        clearInterval(interval);
+        clockCount = 0;
     } else {
         if (gameMode === 'onePlayer') {
             if (currentPlayer === 'x') {
+                stopPlay(cellArray);
                 currentPlayer = 'o';
                 status.textContent = `${playerTwo}'s turn!`
                 let randomCell = cellArray[Math.floor(Math.random() * 9)];
@@ -109,6 +125,7 @@ function clicked(event) {
                     randomCell = cellArray[Math.floor(Math.random() * 9)];
                 }
                setTimeout(()=>{
+                   randomCell.addEventListener('click', clicked);
                    randomCell.click()
                }, 1000);
             } else {
@@ -118,13 +135,14 @@ function clicked(event) {
             } else if (gameMode === 'twoPlayer') {
                 if (currentPlayer === 'x') {
                     currentPlayer = 'o';
-                    status.textContent = `It's ${capitalize(playerTwo)}'s turn!`
+                    status.textContent = `${capitalize(playerTwo)}'s turn!`
                 } else {
                     currentPlayer = 'x';
-                    status.textContent = `It's ${capitalize(playerOne)}'s turn!`;
+                    status.textContent = `${capitalize(playerOne)}'s turn!`;
                 }
             }
     }
+    turnCount += 1;
 }
 
 // function that tells the player to select an empty cell if they've selected one that's 
@@ -146,7 +164,8 @@ startBtn.addEventListener('click', () => {
 // function to remove event listener on cells after someone has won
 function stopPlay(cellArray) {
     cellArray.forEach(function (cell) {
-        cell.removeEventListener('click', clicked)
+        cell.removeEventListener('click', clicked);
+        cell.removeEventListener('click', alreadyClicked);
     })
 }
 
@@ -158,7 +177,7 @@ function checkWin() {
             combo[0].textContent === combo[2].textContent
         ) {
             markWinner(combo);
-            status.textContent = `Player ${capitalize(currentPlayer)} wins!`;
+            status.textContent = `${capitalize(currentPlayer)} wins!`;
             startBtn.disabled = false;
             stopPlay(cellArray);
             return true;
@@ -182,7 +201,7 @@ function start() {
     playerTwoName.disabled = true;
     startBtn.disabled = true;
     clearBoard();
-    status.textContent = `${currentPlayer}'s turn!`;
+    status.textContent = `${capitalize(playerOne)}'s turn!`;
     cells.forEach((cell) => {
         cell.addEventListener('click', clicked)
     })

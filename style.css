@@ -1,5 +1,5 @@
 .typewriter h1 {
-  padding-top: 3vh;
+  padding-top: 1vh;
   padding-bottom: 5vh;
   overflow: hidden;
   white-space: nowrap;
@@ -7,6 +7,10 @@
   animation:
     typing 3.5s steps(40, end),
     blink-caret .75s step-end infinite;
+}
+
+#timer{
+
 }
 
 h3 {
@@ -77,7 +81,7 @@ td {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: 20px;
+  padding: 7px;
 }
 
 .player-one {
@@ -134,12 +138,14 @@ td {
   font-family: Acme;
   font-size: 15px;
   padding: 10px;
-  margin-top: 6vh;
+  margin-top: 3vh;
 }
 
 .clock-wrapper {
   display: flex;
-  justify-content: flex-end;
+  align-items: flex-end;
+  border: 1px solid black;
+
 }
 
 #clock {
