@@ -48,6 +48,12 @@ h1 {
   justify-content: center;
   padding-bottom: 5vh;
   font-size: 25px;
+  width: 30vw;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
 }
 
 #board {
@@ -129,4 +135,13 @@ td {
   font-size: 15px;
   padding: 10px;
   margin-top: 6vh;
+}
+
+.clock-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#clock {
+  font-size: 25px;
 }
