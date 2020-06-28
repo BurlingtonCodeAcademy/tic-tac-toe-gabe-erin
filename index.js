@@ -3,7 +3,7 @@ let playerOne = '';
 let playerTwo = '';
 let clockCount = 0;
 let interval;
-let turnCount = 0;
+let timer = 0;
 
 // initializing variables with DOM scripting
 let startBtn = document.getElementById('start');
@@ -16,21 +16,25 @@ let currentPlayer = 'x';
 let status = document.getElementById('status-bar');
 let clock = document.getElementById('clock');
 let cells = Array.from(document.getElementsByTagName('td'));
-let cellOne = document.getElementById('1')
-let cellTwo = document.getElementById('2')
-let cellThree = document.getElementById('3')
-let cellFour = document.getElementById('4')
-let cellFive = document.getElementById('5')
-let cellSix = document.getElementById('6')
-let cellSeven = document.getElementById('7')
-let cellEight = document.getElementById('8')
-let cellNine = document.getElementById('9')
+let cellOne = document.getElementById('cell-1')
+let cellTwo = document.getElementById('cell-2')
+let cellThree = document.getElementById('cell-3')
+let cellFour = document.getElementById('cell-4')
+let cellFive = document.getElementById('cell-5')
+let cellSix = document.getElementById('cell-6')
+let cellSeven = document.getElementById('cell-7')
+let cellEight = document.getElementById('cell-8')
+let cellNine = document.getElementById('cell-9')
 let usedCellArray = [];
 let gameMode = '';
 
 function capitalize(string) {
     string = string[0].toUpperCase() + string.slice(1).toLowerCase();
     return string;
+}
+
+function initialize() {
+
 }
 
 // assigning individual cells on your game board
@@ -73,14 +77,62 @@ onePlayer.addEventListener('click', () => {
     gameMode = 'onePlayer'
 })
 
+startColors();
+
+function startColors() {
+    cellArray.forEach(function(cell) {
+        // cell.addEventListener('mouseout', green);
+        // cell.addEventListener('mouseover', purple);
+        // cell.addEventListener('mouseover', darken);
+        // cell.addEventListener('mouseout', yellow);
+        // cell.addEventListener('mouseout', purple);
+        cell.addEventListener('mouseover', illumine);
+    })
+}
+
+function stopColors() {
+    cellArray.forEach(function(cell) {
+        // cell.removeEventListener('mouseout', green);
+        // cell.removeEventListener('mouseover', purple);
+        // cell.removeEventListener('mouseover', darken);
+        // cell.removeEventListener('mouseout', yellow);
+        // cell.removeEventListener('mouseout', purple);
+        cell.removeEventListener('mouseover', illumine);
+    })
+}
+//declaration of color events
+function illumine(event) {
+    event.target.style.backgroundColor = '#a1f4f3';
+    event.target.style.border = '3px solid #42aff7';
+    event.target.addEventListener('mouseout', green)
+    }
+
+    function green(event) {
+        event.target.style.backgroundColor = '#d3ffd3';
+        event.target.style.border = '#5dff5d'
+        event.target.addEventListener('mouseover', purple);
+    }
+
+    function yellow(event){
+        event.target.style.backgroundColor = '#ffff62';
+        event.target.style.border = '3px solid #9d9d00';
+        event.target.addEventListener('mouseover', darken);
+    }
+
+    function purple(event){
+        event.target.style.backgroundColor = '#bb00bb';
+        event.target.style.border = '3px solid #ff6cff'
+        event.target.addEventListener('mouseout', yellow)
+    }
+
+function darken(event) {
+    event.target.style.backgroundColor = 'white';
+    event.target.style.border = '3px solid black';
+    event.target.addEventListener('mouseout', illumine);
+}
+
 // function to add to the unclicked cell 
 function clicked(event) {
-    cellArray.forEach(function (cell) {
-        cell.addEventListener('click', clicked);
-        cell.addEventListener('click', alreadyClicked);
-    })
-    console.log(usedCellArray);
-    console.log(usedCellArray.length);
     event.target.textContent = currentPlayer;
     // currentPlayer === 'x' ? 'o' : 'x';
     event.target.removeEventListener('click', clicked);
@@ -88,10 +140,10 @@ function clicked(event) {
     usedCellArray.push(event.target);
     checkWin();
 
-
     let win = checkWin();
 
     if (win) {
+        startColors();
         if (currentPlayer === 'x') {
             status.textContent = `${capitalize(playerOne)} wins!`
         } else {
@@ -106,6 +158,7 @@ function clicked(event) {
         playerOneName.disabled = false;
         playerTwoName.disabled = false;
     } else if (parseInt(usedCellArray.length) === 9) {
+        startColors();
         status.textContent = `It's a draw!`;
         onePlayer.disabled = false;
         twoPlayer.disabled = false;
@@ -119,36 +172,42 @@ function clicked(event) {
             if (currentPlayer === 'x') {
                 stopPlay(cellArray);
                 currentPlayer = 'o';
-                status.textContent = `${playerTwo}'s turn!`
+                status.textContent = `${capitalize(playerTwo)}'s turn!`
                 let randomCell = cellArray[Math.floor(Math.random() * 9)];
                 while (randomCell.textContent !== '' && randomCell) {
                     randomCell = cellArray[Math.floor(Math.random() * 9)];
                 }
-               setTimeout(()=>{
-                   randomCell.addEventListener('click', clicked);
-                   randomCell.click()
-               }, 1000);
+                randomCell.removeEventListener('click', alreadyClicked)
+                randomCell.addEventListener('click', clicked);
+                setTimeout(() => {
+                    randomCell.click()
+                }, 1000);
+                cellArray.forEach(function (cell) {
+                    cell.addEventListener('click', clicked);
+                })
+            } else {
+                currentPlayer = 'x';
+                status.textContent = `${capitalize(playerOne)}'s turn!`;
+                cellArray.forEach(function (cell) {
+                    cell.addEventListener('click', alreadyClicked);
+                })
+            }
+        } else if (gameMode === 'twoPlayer') {
+            if (currentPlayer === 'x') {
+                currentPlayer = 'o';
+                status.textContent = `${capitalize(playerTwo)}'s turn!`
             } else {
                 currentPlayer = 'x';
                 status.textContent = `${capitalize(playerOne)}'s turn!`;
             }
-            } else if (gameMode === 'twoPlayer') {
-                if (currentPlayer === 'x') {
-                    currentPlayer = 'o';
-                    status.textContent = `${capitalize(playerTwo)}'s turn!`
-                } else {
-                    currentPlayer = 'x';
-                    status.textContent = `${capitalize(playerOne)}'s turn!`;
-                }
-            }
+        }
     }
-    turnCount += 1;
 }
 
 // function that tells the player to select an empty cell if they've selected one that's 
 // already in use
 function alreadyClicked() {
-    if(gameMode === 'onePlayer' && currentPlayer === 'o') {
+    if (gameMode === 'onePlayer' && currentPlayer === 'o') {
         let randomCell = cellArray[Math.floor(Math.random() * cellArray.length)];
         randomCell.click();
     }
@@ -189,12 +248,13 @@ function checkWin() {
 function markWinner(combo) {
     for (let cell of combo) {
         cell.style.backgroundColor = '#a1f4f3';
-        cell.style.border = '3px solid #42aff7'
+        cell.style.border = '3px solid #42aff7';
     }
 }
 
-// function that 
+// function that starts the game
 function start() {
+    stopColors();
     playerOne = (playerOneName.value === '' ? 'x' : playerOneName.value);
     playerTwo = (playerTwoName.value === '' ? 'o' : playerTwoName.value);
     playerOneName.disabled = true;
