@@ -1,3 +1,9 @@
+load();
+
+function load() {
+  alert("Get ready to play the coolest game you've ever played!")
+}
+
 // assigning variables
 let playerOne = '';
 let playerTwo = '';
@@ -36,6 +42,31 @@ function capitalize(string) {
 function initialize() {
 
 }
+
+twoPlayer.addEventListener('mouseover', (event) => {
+  event.target.style.color = '#42aff7'
+})
+
+twoPlayer.addEventListener('mouseout', (event) => {
+  event.target.style.color = 'black'
+})
+
+onePlayer.addEventListener('mouseover', (event) => {
+  event.target.style.color = '#42aff7'
+})
+
+onePlayer.addEventListener('mouseout', (event) => {
+  event.target.style.color = 'black'
+})
+
+startBtn.addEventListener('mouseover', (event) => {
+  event.target.style.color = '#42aff7'
+})
+
+startBtn.addEventListener('mouseout', (event) => {
+  event.target.style.color = '42aff7'
+})
+
 
 // assigning individual cells on your game board
 // possible clicks
@@ -238,3 +269,4 @@ function updateClock() {
     clock.textContent = clockCount;
     clockCount += 1;
 }
+

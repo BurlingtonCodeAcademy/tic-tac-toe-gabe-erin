@@ -38,7 +38,11 @@ h3 {
 }
 
 body {
-  font-family: Acme
+  font-family: Acme;
+  display: flex;
+	justify-content: center;
+	align-items: center;
+  height: 100vh;
 }
 
 h1 {
