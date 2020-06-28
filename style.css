@@ -9,8 +9,8 @@
     blink-caret .75s step-end infinite;
 }
 
-#timer {
-
+tr td {
+  transition: border 2s, 
 }
 
 h3 {
