@@ -1,8 +1,8 @@
-load();
+// load();
 
-function load() {
-  alert("Get ready to play the coolest game you've ever played!")
-}
+// function load() {
+//   alert("Get ready to play the coolest game you've ever played!")
+// }
 
 // assigning variables
 let playerOne = '';
@@ -10,15 +10,16 @@ let playerTwo = '';
 let clockCount = 0;
 let interval;
 let timer = 0;
+let currentPlayer = 'x';
+let usedCellArray = [];
+let gameMode = 'twoPlayer';
 
 // initializing variables with DOM scripting
 let startBtn = document.getElementById('start');
-startBtn.disabled = true;
 let onePlayer = document.getElementById('onePlayer');
 let twoPlayer = document.getElementById('twoPlayer');
 let playerOneName = document.getElementById('playerOne')
 let playerTwoName = document.getElementById('playerTwo')
-let currentPlayer = 'x';
 let status = document.getElementById('status-bar');
 let clock = document.getElementById('clock');
 let cells = Array.from(document.getElementsByTagName('td'));
@@ -31,17 +32,27 @@ let cellSix = document.getElementById('cell-6')
 let cellSeven = document.getElementById('cell-7')
 let cellEight = document.getElementById('cell-8')
 let cellNine = document.getElementById('cell-9')
-let usedCellArray = [];
-let gameMode = '';
 
-function capitalize(string) {
-    string = string[0].toUpperCase() + string.slice(1).toLowerCase();
-    return string;
-}
+startBtn.disabled = true;
 
-function initialize() {
+twoPlayer.addEventListener('click', () => {
+    twoPlayer.disabled = true;
+    onePlayer.disabled = true;
+    startBtn.disabled = false;
+})
 
-}
+onePlayer.addEventListener('click', () => {
+    twoPlayer.disabled = true;
+    onePlayer.disabled = true;
+    startBtn.disabled = false;
+    gameMode = 'onePlayer'
+})
+
+startBtn.addEventListener('click', () => {
+    start();
+    onePlayer.disabled = true;
+    twoPlayer.disabled = true;
+})
 
 twoPlayer.addEventListener('mouseover', (event) => {
   event.target.style.color = '#42aff7'
@@ -64,9 +75,8 @@ startBtn.addEventListener('mouseover', (event) => {
 })
 
 startBtn.addEventListener('mouseout', (event) => {
-  event.target.style.color = '42aff7'
+  event.target.style.color = 'black'
 })
-
 
 // assigning individual cells on your game board
 // possible clicks
@@ -94,75 +104,9 @@ let WINNING_COMBOS = {
     backSlash: [cellOne, cellFive, cellNine]
 }
 
-twoPlayer.addEventListener('click', () => {
-    twoPlayer.disabled = true;
-    onePlayer.disabled = true;
-    startBtn.disabled = false;
-    gameMode = 'twoPlayer';
-})
-
-onePlayer.addEventListener('click', () => {
-    twoPlayer.disabled = true;
-    onePlayer.disabled = true;
-    startBtn.disabled = false;
-    gameMode = 'onePlayer'
-})
-
-// startColors();
-
-cellOne.addEventListener('click', startColors)
-
-function startColors() {
-    cellArray.forEach(function(cell) {
-        // cell.addEventListener('mouseout', green);
-        // cell.addEventListener('mouseover', purple);
-        // cell.addEventListener('mouseover', darken);
-        // cell.addEventListener('mouseout', yellow);
-        // cell.addEventListener('mouseout', purple);
-        cell.addEventListener('mouseover', illumine);
-    })
-}
-
-function stopColors() {
-    cellArray.forEach(function(cell) {
-        cell.removeEventListener('mouseout', green);
-        cell.removeEventListener('mouseover', purple);
-        cell.removeEventListener('mouseover', darken);
-        cell.removeEventListener('mouseout', yellow);
-        cell.removeEventListener('mouseout', purple);
-        cell.removeEventListener('mouseover', illumine);
-        cell.removeEventListener('mouseout', illumine);
-    })
-}
-//declaration of color events
-function illumine(event) {
-    event.target.style.backgroundColor = '#a1f4f3';
-    event.target.style.border = '3px solid #42aff7';
-    // event.target.addEventListener('mouseout', green)
-    }
-
-    function green(event) {
-        event.target.style.backgroundColor = '#d3ffd3';
-        event.target.style.border = '#5dff5d'
-        // event.target.addEventListener('mouseover', purple);
-    }
-
-    function yellow(event){
-        event.target.style.backgroundColor = '#ffff62';
-        event.target.style.border = '3px solid #9d9d00';
-        // event.target.addEventListener('mouseover', darken);
-    }
-
-    function purple(event){
-        event.target.style.backgroundColor = '#bb00bb';
-        event.target.style.border = '3px solid #ff6cff'
-        // event.target.addEventListener('mouseout', yellow)
-    }
-
-function darken(event) {
-    event.target.style.backgroundColor = 'white';
-    event.target.style.border = '3px solid black';
-    // event.target.addEventListener('mouseout', illumine);
+function capitalize(string) {
+    string = string[0].toUpperCase() + string.slice(1).toLowerCase();
+    return string;
 }
 
 // function to add to the unclicked cell 
@@ -179,24 +123,18 @@ function clicked(event) {
     if (win) {
         if (currentPlayer === 'x') {
             status.textContent = `${capitalize(playerOne)} wins!`
-        } else {
+        } else if (currentPlayer === 'o') {
             status.textContent = `${capitalize(playerTwo)} wins!`
-        }
-        stopPlay(cellArray)
+        } 
+        stopPlay(cellArray);
+        endGame()
         clearInterval(interval);
         clockCount = 0;
         startBtn.disabled = true;
-        onePlayer.disabled = false;
-        twoPlayer.disabled = false;
-        playerOneName.disabled = false;
-        playerTwoName.disabled = false;
     } else if (parseInt(usedCellArray.length) === 9) {
         status.textContent = `It's a draw!`;
-        onePlayer.disabled = false;
-        twoPlayer.disabled = false;
-        playerOneName.disabled = false;
-        playerTwoName.disabled = false;
-        stopPlay(cellArray)
+        stopPlay(cellArray);
+        endGame()
         clearInterval(interval);
         clockCount = 0;
     } else {
@@ -210,14 +148,16 @@ function clicked(event) {
                     randomCell = cellArray[Math.floor(Math.random() * 9)];
                 }
                 randomCell.removeEventListener('click', alreadyClicked)
-                randomCell.addEventListener('click', clicked);
-                setTimeout(() => {
-                    randomCell.click()
-                }, 1000);
-                cellArray.forEach(function (cell) {
-                    cell.addEventListener('click', clicked);
-                })
-            } else {
+                    randomCell.addEventListener('click', clicked);
+                    randomCell.click();
+                    currentPlayer = 'x';
+                    status.textContent = `${capitalize(playerOne)}'s turn!`;
+                    cellArray.forEach(function (cell) {
+                        cell.addEventListener('click', alreadyClicked);
+                        cell.addEventListener('click', clicked);
+
+                    })
+                } else {
                 currentPlayer = 'x';
                 status.textContent = `${capitalize(playerOne)}'s turn!`;
                 cellArray.forEach(function (cell) {
@@ -236,8 +176,7 @@ function clicked(event) {
     }
 }
 
-// function that tells the player to select an empty cell if they've selected one that's 
-// already in use
+//if the player clicks on an occupied square it alerts them to this
 function alreadyClicked() {
     if (gameMode === 'onePlayer' && currentPlayer === 'o') {
         let randomCell = cellArray[Math.floor(Math.random() * cellArray.length)];
@@ -246,18 +185,19 @@ function alreadyClicked() {
     status.textContent = 'Please select an empty cell.';
 }
 
-startBtn.addEventListener('click', () => {
-    start();
-    onePlayer.disabled = true;
-    twoPlayer.disabled = true;
-})
-
-// function to remove event listener on cells after someone has won
+// function to remove event listener on cells after someone has won, also enables relevant buttonage
 function stopPlay(cellArray) {
     cellArray.forEach(function (cell) {
         cell.removeEventListener('click', clicked);
         cell.removeEventListener('click', alreadyClicked);
     })
+}
+
+function endGame(){
+    onePlayer.disabled = false;
+    twoPlayer.disabled = false;
+    playerOneName.disabled = false;
+    playerTwoName.disabled = false;
 }
 
 // function to check whether or not the player has won
@@ -286,12 +226,13 @@ function markWinner(combo) {
 
 // function that starts the game
 function start() {
-    stopColors();
     playerOne = (playerOneName.value === '' ? 'x' : playerOneName.value);
     playerTwo = (playerTwoName.value === '' ? 'o' : playerTwoName.value);
     playerOneName.disabled = true;
     playerTwoName.disabled = true;
     startBtn.disabled = true;
+    onePlayer.disabled = true;
+    twoPlayer.disabled = true;
     clearBoard();
     status.textContent = `${capitalize(playerOne)}'s turn!`;
     cells.forEach((cell) => {
