@@ -33,6 +33,32 @@ let cellSeven = document.getElementById("cell-7");
 let cellEight = document.getElementById("cell-8");
 let cellNine = document.getElementById("cell-9");
 
+// assigning individual cells on your game board
+// possible clicks
+let cellArray = [
+  cellOne,
+  cellTwo,
+  cellThree,
+  cellFour,
+  cellFive,
+  cellSix,
+  cellSeven,
+  cellEight,
+  cellNine,
+];
+
+// all the possible combinations to win the game
+let WINNING_COMBOS = {
+  rowOne: [cellOne, cellTwo, cellThree],
+  rowTwo: [cellFour, cellFive, cellSix],
+  rowThree: [cellSeven, cellEight, cellNine],
+  columnOne: [cellOne, cellFour, cellSeven],
+  columnTwo: [cellTwo, cellFive, cellEight],
+  columnThree: [cellThree, cellSix, cellNine],
+  forwardSlash: [cellThree, cellFive, cellSeven],
+  backSlash: [cellOne, cellFive, cellNine],
+};
+
 startBtn.disabled = true;
 
 twoPlayer.addEventListener("click", () => {
@@ -77,32 +103,6 @@ startBtn.addEventListener("mouseover", (event) => {
 startBtn.addEventListener("mouseout", (event) => {
   event.target.style.color = "black";
 });
-
-// assigning individual cells on your game board
-// possible clicks
-let cellArray = [
-  cellOne,
-  cellTwo,
-  cellThree,
-  cellFour,
-  cellFive,
-  cellSix,
-  cellSeven,
-  cellEight,
-  cellNine,
-];
-
-// all the possible combinations to win the game
-let WINNING_COMBOS = {
-  rowOne: [cellOne, cellTwo, cellThree],
-  rowTwo: [cellFour, cellFive, cellSix],
-  rowThree: [cellSeven, cellEight, cellNine],
-  columnOne: [cellOne, cellFour, cellSeven],
-  columnTwo: [cellTwo, cellFive, cellEight],
-  columnThree: [cellThree, cellSix, cellNine],
-  forwardSlash: [cellThree, cellFive, cellSeven],
-  backSlash: [cellOne, cellFive, cellNine],
-};
 
 function capitalize(string) {
   string = string[0].toUpperCase() + string.slice(1).toLowerCase();
@@ -191,20 +191,19 @@ function alreadyClicked() {
   status.textContent = "Please select an empty cell.";
 }
 
-// function to remove event listener on cells after someone has won, also enables relevant buttonage
+// function to remove event listener on cells after someone has won
 function stopPlay(cellArray) {
   cellArray.forEach(function (cell) {
     cell.removeEventListener("click", clicked);
     cell.removeEventListener("click", alreadyClicked);
   });
 }
-
+//sets buttons to starting enablement
 function endGame() {
   onePlayer.disabled = false;
   twoPlayer.disabled = false;
   playerOneName.disabled = false;
   playerTwoName.disabled = false;
-  currentPlayer = "x";
 }
 
 // function to check whether or not the player has won
@@ -232,8 +231,9 @@ function markWinner(combo) {
   }
 }
 
-// function that starts the game
+// function that starts the game and the clock
 function start() {
+  currentPlayer = "x";
   playerOne = playerOneName.value === "" ? "x" : playerOneName.value;
   playerTwo = playerTwoName.value === "" ? "o" : playerTwoName.value;
   playerOneName.disabled = true;
@@ -271,7 +271,7 @@ function clearBoard() {
     ];
   });
 }
-// our interval
+//function to increment clock count
 function updateClock() {
   clock.textContent = clockCount;
   clockCount += 1;

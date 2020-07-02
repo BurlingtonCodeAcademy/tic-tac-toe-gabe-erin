@@ -81,10 +81,6 @@ td {
   flex-direction: row;
 }
 
-button:hover {
-  color: '#42aff7'
-}
-
 .player-container {
   display: flex;
   flex-direction: row;
