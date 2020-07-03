@@ -172,3 +172,15 @@ td {
   display: flex;
   flex-direction: column;
 }
+
+#onePlayer:hover {
+  color:#42aff7
+}
+
+#twoPlayer:hover {
+  color:#42aff7
+}
+
+#start:hover {
+  color: #42aff7
+}

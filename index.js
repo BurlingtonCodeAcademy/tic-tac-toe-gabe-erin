@@ -80,29 +80,6 @@ startBtn.addEventListener("click", () => {
   twoPlayer.disabled = true;
 });
 
-twoPlayer.addEventListener("mouseover", (event) => {
-  event.target.style.color = "#42aff7";
-});
-
-twoPlayer.addEventListener("mouseout", (event) => {
-  event.target.style.color = "black";
-});
-
-onePlayer.addEventListener("mouseover", (event) => {
-  event.target.style.color = "#42aff7";
-});
-
-onePlayer.addEventListener("mouseout", (event) => {
-  event.target.style.color = "black";
-});
-
-startBtn.addEventListener("mouseover", (event) => {
-  event.target.style.color = "#42aff7";
-});
-
-startBtn.addEventListener("mouseout", (event) => {
-  event.target.style.color = "black";
-});
 
 function capitalize(string) {
   string = string[0].toUpperCase() + string.slice(1).toLowerCase();
